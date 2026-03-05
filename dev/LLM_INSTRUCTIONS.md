@@ -113,7 +113,7 @@ REVENANT-DEPOT/          ← архів на носії
 ## Важливі рішення прийняті раніше
 
 - Архів на носії називається **REVENANT-DEPOT** (не COLDSTART-DEPOT, не VAULT)
-- `microhes` (path: `r0/microhes`) — прихована підсторінка одного entry в R0 (POWER), **не** окрема секція
+- `microhes` (id: `r0-microhes`) — прихована підсторінка одного entry в R0 (POWER), **не** окрема секція
 - x86 — не підтримуємо, тільки ARM
 - Мова за замовчуванням — UA, є перемикач EN
 - `priority` поле рендериться через `Lpri()` у renderer.js — content.js не чіпати

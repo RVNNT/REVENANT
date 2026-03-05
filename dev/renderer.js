@@ -1,7 +1,10 @@
 // =============================================================
-// RENDERER — CSS + МікроГЕС template + логіка рендерингу
+// RENDERER — CSS + логіка рендерингу
 // Не редагуй якщо не знаєш що робиш
 // =============================================================
+
+const VERSION = "0.1";
+
 
 // ── CSS ──────────────────────────────────────────────────────
 (function() {
@@ -53,6 +56,7 @@
     min-height: 100vh; background: var(--bg);
     font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     color: var(--text1); transition: background 0.2s, color 0.2s; line-height: 1.6;
+    display: flex; flex-direction: column;
   }
   button { cursor: pointer; font-family: inherit; }
   a { color: inherit; }
@@ -60,14 +64,18 @@
   /* ===== HEADER ===== */
   .header {
     background: linear-gradient(135deg, var(--bg) 0%, var(--bg2) 60%, var(--bg) 100%);
-    border-bottom: none; padding: 10px 24px 5px;
-    position: relative; overflow: hidden;
+    border-bottom: none; padding: 7px 24px 3px;
+    position: relative;
   }
   .header::before {
     content: ''; position: absolute; inset: 0; pointer-events: none;
     background: radial-gradient(ellipse 70% 70% at 20% 0%, rgba(79,156,249,0.08) 0%, transparent 70%);
   }
-  .header-inner { max-width: 900px; margin: 0 auto; position: relative; }
+  .header-inner { max-width: 900px; margin: 0 auto; position: relative; display: flex; align-items: center; gap: 12px; }
+  .header-logo-link { flex-shrink: 0; display: flex; align-items: center; text-decoration: none; padding: 0; }
+  .header-logo { height: 80px; width: auto; display: block; opacity: 0.9; transition: opacity 0.15s; }
+  .header-logo:hover { opacity: 1; }
+  .header-text { flex: 1; min-width: 0; }
   .project-label { font-size: 10px; letter-spacing: 6px; color: var(--dim3); margin-bottom: 6px; text-transform: uppercase; }
   .project-name  { font-size: clamp(28px, 5vw, 48px); font-weight: 900; color: var(--text2); letter-spacing: -1px; line-height: 1; margin-bottom: 4px; }
   .project-sub   { font-size: 11px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; font-weight: 600; }
@@ -81,17 +89,22 @@
   .toggle-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   /* ===== MAIN ===== */
-  .main { max-width: 900px; margin: 0 auto; padding: 24px 16px 80px; }
+  .main { max-width: 900px; width: 100%; margin: 0 auto; padding: 20px 16px 20px; display: flex; flex-direction: column; justify-content: space-between; }
+  .main.home-page { flex: 1; }
 
   /* ===== SECTION CARDS (main page) ===== */
   .cs-group {
     border: 1px solid var(--bd1); border-radius: var(--radius);
-    overflow: hidden; margin-bottom: 21px; background: var(--bg2);
+    overflow: hidden; background: var(--bg2);
+  }
+  .cs-group-title {
+    height: 8px; background: var(--bg3); border-bottom: 1px solid var(--bd1);
+    overflow: hidden; font-size: 0;
   }
   .cs-card {
     display: flex; align-items: center; gap: 16px;
     background: none; border: none; border-bottom: 1px solid rgba(255,255,255,0.04);
-    padding: 13px 18px; cursor: pointer; transition: background 0.15s;
+    padding: 8px 12px; cursor: pointer; transition: background 0.15s;
     width: 100%; text-align: left; color: var(--text1);
   }
   .cs-card:hover { background: rgba(255,255,255,0.04); }
@@ -220,7 +233,7 @@
 
   /* ===== FOOTER ===== */
   .site-footer {
-    margin-top: 32px; padding: 12px 20px;
+    margin-top: 5px; padding: 12px 20px;
     border-top: 1px solid var(--bd1);
     font-size: 11px; color: var(--dim3); text-align: center;
     letter-spacing: 2px;
@@ -230,6 +243,50 @@
 
 `;
   document.head.appendChild(style);
+
+  // ── Рендер хедера ────────────────────────────────────────────
+  document.querySelector('.header-inner').innerHTML = `
+    <a class="header-logo-link" href="#" title="REVENANT Home"
+       onclick="event.preventDefault();history.pushState(null,'',location.pathname);renderMain();window.scrollTo(0,0);">
+      <svg viewBox="-3 -3 106 106" width="80" height="80" xmlns="http://www.w3.org/2000/svg" class="header-logo">
+    <line x1="88.1" y1="28.0" x2="93.3" y2="25.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="93.3" cy="25.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="88.1" y1="72.0" x2="93.3" y2="75.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="93.3" cy="75.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="50.0" y1="94.0" x2="50.0" y2="100.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="50.0" cy="100.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="11.9" y1="72.0" x2="6.7" y2="75.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="6.7" cy="75.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="11.9" y1="28.0" x2="6.7" y2="25.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="6.7" cy="25.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="50.0" y1="6.0" x2="50.0" y2="0.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="50.0" cy="0.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <polygon points="88.11,28.00 88.11,72.00 50.00,94.00 11.89,72.00 11.89,28.00 50.00,6.00" fill="#0c1625" stroke="#2a8aff" stroke-width="1.6"/>
+    <polygon points="75.98,35.00 75.98,65.00 50.00,80.00 24.02,65.00 24.02,35.00 50.00,20.00" fill="none" stroke="#2a8aff" stroke-width="0.7" stroke-dasharray="3,2" opacity="0.35"/>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="25" y="50" font-size="17" font-weight="900" fill="none" stroke="#2a8aff" stroke-width="0.65" stroke-linejoin="round" opacity="0.5">CO</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="13.0" font-size="11.5" font-weight="700" fill="#2a8aff">V</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="28.6" font-size="11.5" font-weight="700" fill="#2a8aff">E</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="42.2" font-size="11.5" font-weight="700" fill="#2a8aff">N</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="57.8" font-size="11.5" font-weight="700" fill="#2a8aff">A</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="73.4" font-size="11.5" font-weight="700" fill="#2a8aff">N</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="91.0" font-size="11.5" font-weight="700" fill="#2a8aff">T</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="75" y="50" font-size="17" font-weight="900" fill="#2a8aff">RE</text>
+  </svg>
+    </a>
+    <div class="header-text">
+      <div class="project-name">REVENANT</div>
+      <div class="project-sub">Hardened Bootstrap Software Recovery Protocol</div>
+    </div>
+    <div class="toggle-group">
+      <button class="toggle-btn" onclick="toggleTheme()">
+        <span id="themeIcon">☀</span>
+        <span id="themeLabel">ДЕНЬ</span>
+      </button>
+      <button class="toggle-btn" onclick="toggleLang()">
+        <span id="langIcon">UA</span>
+      </button>
+    </div>
+  `;
 })();
 
 // =============================================================
@@ -241,7 +298,6 @@ const UI = {
     back: "Назад", items: "пунктів",
     targets: "ЩО ЗБЕРІГАТИ / ЗНАТИ:", links: "ПОСИЛАННЯ:",
     stepsLabel: "КРОКИ:", archiveLabel: "АРХІВ:",
-    footerTagline: "R0 → Clan · R1 → Hex · R2 → Поліс · R3 → Мегаполіс",
     themeDay: "ДЕНЬ", themeNight: "НІЧ",
     pri: { "КРИТИЧНО":"КРИТИЧНО", "ВАЖЛИВО":"ВАЖЛИВО", "БАЖАНО":"БАЖАНО", "ДОДАТКОВО":"ДОДАТКОВО" }
   },
@@ -249,13 +305,12 @@ const UI = {
     back: "Back", items: "items",
     targets: "WHAT TO SAVE / KNOW:", links: "LINKS:",
     stepsLabel: "STEPS:", archiveLabel: "ARCHIVE:",
-    footerTagline: "R0 → Clan · R1 → Hex · R2 → Polis · R3 → Megalopolis",
     themeDay: "DAY", themeNight: "NIGHT",
     pri: { "КРИТИЧНО":"CRITICAL", "ВАЖЛИВО":"IMPORTANT", "БАЖАНО":"DESIRED", "ДОДАТКОВО":"OPTIONAL" }
   }
 };
 
-let currentLang = "ua";
+let currentLang = "en";
 let isLight = false;
 
 function L(obj, field) {
@@ -269,6 +324,8 @@ function toggleLang() {
   currentLang = currentLang === "ua" ? "en" : "ua";
   document.getElementById("langIcon").textContent = currentLang === "en" ? "UA" : "EN";
   document.getElementById("themeLabel").textContent = isLight ? T("themeNight") : T("themeDay");
+  document.documentElement.lang = currentLang === "en" ? "en" : "uk";
+  renderFooter();
   handleRoute();
 }
 
@@ -319,8 +376,8 @@ function renderEntries(section, entries) {
           ${entry.archive.files&&entry.archive.files.length?`<span class="cs-arc-files">${entry.archive.files.join(', ')}</span>`:''}
           ${entry.archive.note?`<div class="cs-arc-note">${currentLang==='en'&&entry.archive.note_en?entry.archive.note_en:entry.archive.note}</div>`:''}
         </div>` : ''}
-        ${entry.targets&&entry.targets.length?`<div class="cs-tags-lbl">${T('targets')}</div><div class="cs-tags-list">${entry.targets.map(t=>`<span class="cs-tag">${t}</span>`).join('')}</div>`:''}
-        ${entry.links&&entry.links.length?`<div class="cs-links-lbl">${T('links')}</div><div class="cs-links-list">${entry.links.map(l=>l.u.startsWith('#')?`<a class="cs-link cs-link-nav" href="${l.u}" onclick="event.preventDefault();location.hash='${l.u.slice(1)}'">${l.t}</a>`:`<a class="cs-link" href="${l.u}" target="_blank">${l.t}</a>`).join('')}</div>`:''}
+        ${entry.targets&&entry.targets.length?`<div class="cs-tags-lbl">${T('targets')}</div><div class="cs-tags-list">${(currentLang==='en'&&entry.targets_en&&entry.targets_en.length?entry.targets_en:entry.targets).map(t=>`<span class="cs-tag">${t}</span>`).join('')}</div>`:''}
+        ${entry.links&&entry.links.length?`<div class="cs-links-lbl">${T('links')}</div><div class="cs-links-list">${entry.links.map(l=>{const lt=currentLang==='en'&&l.t_en?l.t_en:l.t;return l.u.startsWith('#')?`<a class="cs-link cs-link-nav" href="${l.u}" onclick="event.preventDefault();location.hash='${l.u.slice(1)}'">${lt}</a>`:`<a class="cs-link" href="${l.u}" target="_blank">${lt}</a>`;}).join('')}</div>`:''}
         ${entry.note?`<div class="cs-note"><span class="cs-note-icon">⚠️</span><span class="cs-note-text">${L(entry,'note')}</span></div>`:''}
       </div>
     </div>`;
@@ -329,12 +386,13 @@ function renderEntries(section, entries) {
 
 function renderMain() {
   const main = document.getElementById('main');
+  main.classList.add('home-page');
   let html = '';
   SECTIONS.forEach(group => {
     if(group.hidden) return;
     const visibleItems = group.items.filter(s => !s.hidden);
     if(!visibleItems.length) return;
-    html += '<div class="cs-group">';
+    html += `<div class="cs-group"><div class="cs-group-title">${L(group,'group')}</div>`;
     visibleItems.forEach(section => {
       html += `
       <button class="cs-card" onclick="location.hash='section/${section.id}'">
@@ -355,8 +413,9 @@ function renderMain() {
 }
 
 function renderSectionPage(id) {
-  const section = SECTIONS.flatMap(g=>g.items).find(s=>(s.path||s.id)===id);
+  const section = SECTIONS.flatMap(g=>g.items).find(s=>s.id===id);
   if(!section) { location.hash=''; return; }
+  document.getElementById('main').classList.remove('home-page');
   document.getElementById('main').innerHTML = `
     <button class="back-btn" onclick="history.back()">← ${T('back')}</button>
     <div class="sp-hero" style="background:linear-gradient(135deg,${section.color}0d 0%,var(--bg2) 100%)">
@@ -390,4 +449,14 @@ function toggleItem(key) {
   arr.textContent = open ? "▲" : "▼";
 }
 
+// ── Рендер футера ────────────────────────────────────────────
+function renderFooter() {
+  document.getElementById('footer').innerHTML =
+    `REVENANT v${VERSION} &nbsp;·&nbsp; ` +
+    `<a href="https://github.com/RVNNT" target="_blank">GitHub</a>` +
+    ` &nbsp;·&nbsp; ` +
+    `<a href="https://t.me/rvnnt2" target="_blank">Telegram</a>`;
+}
+
+renderFooter();
 handleRoute();

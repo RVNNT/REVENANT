@@ -1,0 +1,25 @@
+<svg viewBox="-3 -3 106 106" width="512" height="512" xmlns="http://www.w3.org/2000/svg">
+    <line x1="88.1" y1="28.0" x2="93.3" y2="25.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="93.3" cy="25.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="88.1" y1="72.0" x2="93.3" y2="75.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="93.3" cy="75.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="50.0" y1="94.0" x2="50.0" y2="100.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="50.0" cy="100.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="11.9" y1="72.0" x2="6.7" y2="75.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="6.7" cy="75.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="11.9" y1="28.0" x2="6.7" y2="25.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="6.7" cy="25.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <line x1="50.0" y1="6.0" x2="50.0" y2="0.0" stroke="#2a8aff" stroke-width="1.8" opacity="0.5"/>
+    <circle cx="50.0" cy="0.0" r="2.4" fill="none" stroke="#2a8aff" stroke-width="0.9"/>
+    <polygon points="88.11,28.00 88.11,72.00 50.00,94.00 11.89,72.00 11.89,28.00 50.00,6.00" fill="#0c1625" stroke="#2a8aff" stroke-width="1.6"/>
+    <polygon points="75.98,35.00 75.98,65.00 50.00,80.00 24.02,65.00 24.02,35.00 50.00,20.00" fill="none" stroke="#2a8aff" stroke-width="0.7" stroke-dasharray="3,2" opacity="0.35"/>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="25" y="50" font-size="17" font-weight="900"
+      fill="none" stroke="#2a8aff" stroke-width="0.65" stroke-linejoin="round" opacity="0.5">CO</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="13.0" font-size="11.5" font-weight="700" fill="#2a8aff">V</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="28.6" font-size="11.5" font-weight="700" fill="#2a8aff">E</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="42.2" font-size="11.5" font-weight="700" fill="#2a8aff">N</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="57.8" font-size="11.5" font-weight="700" fill="#2a8aff">A</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="73.4" font-size="11.5" font-weight="700" fill="#2a8aff">N</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="50" y="91.0" font-size="11.5" font-weight="700" fill="#2a8aff">T</text>
+    <text font-family="'Arial Black',Arial,sans-serif" text-anchor="middle" dominant-baseline="middle" x="75" y="50" font-size="17" font-weight="900" fill="#2a8aff">RE</text>
+  </svg>

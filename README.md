@@ -11,10 +11,11 @@ The medium contains: Linux base + container images + package mirrors + infra IaC
 ## Network Layer Architecture
 
 ```
-T0 → Clan mesh   (phones / mesh)
-T1 → Hex         (25k)
-T2 → Polis       (500k)
-T3 → Megalopolis (1.2M)
+T0 → Clan mesh     (phones / mesh)
+T1 → Hex           (25k)
+T2a → Polis        (500k)
+T2b → Megalopolis  (1.2M)
+T3 → Covenant      (2+ Poleis)
 ```
 
 ---
@@ -46,7 +47,7 @@ This is the minimal unit of civilization, concentrating critical equipment: SMR 
 
 ---
 
-## R2 — Polis (up to 500,000 people)
+## R2a — Polis (up to 500,000 people)
 
 > Optimized for minimal capital expenditure (CAPEX).
 
@@ -58,7 +59,7 @@ Communication is provided by the T2 network, which interconnects multiple T1 net
 
 ---
 
-## R3 — Megalopolis (up to 1,200,000 people)
+## R2b — Megalopolis (up to 1,200,000 people)
 
 > Optimized for maximum scaling efficiency and strategic security.
 
@@ -69,6 +70,14 @@ At a density of **12,000 people/km²** over **100 km²**, the city reaches the c
 
 This is the critical mass for the viability of deep metro (a network of autonomous sealed shelters + rapid transit) and highly specialized scientific clusters.
 
-## How to handle
+---
 
-chmod +x ./build.command
+## R3 — Covenant (Federation of Poleis)
+
+> Union of 2+ Poleis connected by a single technological network under a federative-republican contract.
+
+Optimized for civilizational resilience, distributed sovereignty, and technological continuity.
+
+A Covenant is a voluntary federation of independent Poleis bound by a contractual technological and security framework. Each Polis preserves internal autonomy while participating in a shared network layer, infrastructure standards, and strategic coordination.
+
+The Covenant exists to prevent systemic collapse: if one Polis fails, the network persists through the others.
