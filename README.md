@@ -68,3 +68,7 @@ At a density of **12,000 people/km²** over **100 km²**, the city reaches the c
 - Infrastructure costs grow **15% slower**
 
 This is the critical mass for the viability of deep metro (a network of autonomous sealed shelters + rapid transit) and highly specialized scientific clusters.
+
+## How to handle
+
+chmod +x ./build.command
