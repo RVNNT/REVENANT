@@ -1,68 +1,70 @@
 # REVENANT
 ## Hardened Bootstrap Software Recovery Protocol
 
-**Принцип:** все розгортається з носія (USB / SSD / HDD).
-Носій містить: Linux base + container images + package mirrors + infra IaC + firmware + knowledge archive.
+🌐 **[rvnnt.github.io/REVENANT](https://rvnnt.github.io/REVENANT)**
+
+**Principle:** everything deploys from a single medium (USB / SSD / HDD).
+The medium contains: Linux base + container images + package mirrors + infra IaC + firmware + knowledge archive.
 
 ---
 
-## Архітектура мережевих рівнів
+## Network Layer Architecture
 
 ```
-T0 → Clan mesh   (телефони / mesh)
+T0 → Clan mesh   (phones / mesh)
 T1 → Hex         (25k)
-T2 → Поліс       (500k)
-T3 → Мегаполіс   (1.2M)
+T2 → Polis       (500k)
+T3 → Megalopolis (1.2M)
 ```
 
 ---
 
-## R0 — Клан (50–200 людей)
+## R0 — Clan (50–200 people)
 
-> *Dunbar's number* — мінімальна соціальна одиниця, оптимізована для формування ядра довіри та автономного взаємозв'язку.
+> *Dunbar's number* — the minimal social unit, optimized for building a trust core and autonomous interconnection.
 
-Клан функціонує як автономна спільнота. Це первинна політична структура, що концентрує вплив, забезпечує стабільність групи, формує лідерство та готує основу для розширення у Hex.
+The clan operates as an autonomous community. It is the primary political structure that concentrates influence, ensures group stability, forms leadership, and prepares the foundation for expansion into the Hex.
 
-**Вхід:** флешка.
-**Вихід:** захищена T0 mesh-мережа для клану, текстова + голосова комунікація. Політична консолідація до 25 тис. осіб.
-
----
-
-## R1 — Hex (до 25,000 осіб)
-
-> Оптимізований під гіпер-автономію та технологічне збереження.
-
-При щільності **12,500 осіб/км²** на площі **2 км²** місто працює як єдиний інженерний вузол за принципом шестикутної соти, що забезпечує безшовне клонування.
-
-- Нульова транспортна затримка
-- Вертикальне зонування: виробництво під землею, житло та ферми вгорі
-- Компактність мереж мінімізує втрати енергії
-- Радіус ≤1 км — вся інфраструктура об'єднується дротовою мережею
-- Все населення охоплюється T1 wireless без ретрансляторів
-
-Це мінімальна одиниця цивілізації, що концентрує критичне обладнання: SMR-реактор, FabLab, стаціонарну медицину — для автономного виживання та модульного розгортання у Поліс.
+**Input:** a flash drive.
+**Output:** a secured T0 mesh network for the clan, text + voice communication. Political consolidation up to 25,000 people.
 
 ---
 
-## R2 — Поліс (до 500,000 осіб)
+## R1 — Hex (up to 25,000 people)
 
-> Оптимізований під мінімальні капітальні видатки (CAPEX).
+> Optimized for hyper-autonomy and technological preservation.
 
-При щільності **8,000 осіб/км²** на площі **60–80 км²** місто вкладається в радіус 5 км, що дозволяє мікромобільність.
+At a density of **12,500 people/km²** over **2 km²**, the city operates as a single engineering node on the hexagonal cell principle, enabling seamless cloning.
 
-Це поріг самодостатності: населення вистачає для утримання університету, багатопрофільного госпіталю, аеропорту. Модель максимізує економічний ріст, соціальний капітал і комфорт для особистості.
+- Zero transport latency
+- Vertical zoning: manufacturing underground, housing and farms above
+- Network compactness minimizes energy losses
+- Radius ≤1 km — all infrastructure unified by wired network
+- Entire population covered by T1 wireless without repeaters
 
-Комунікація забезпечується T2 мережею, яка об'єднує декілька T1 мереж.
+This is the minimal unit of civilization, concentrating critical equipment: SMR reactor, FabLab, stationary medicine — for autonomous survival and modular deployment into the Polis.
 
 ---
 
-## R3 — Мегаполіс (до 1,200,000 осіб)
+## R2 — Polis (up to 500,000 people)
 
-> Оптимізований під максимальний ККД масштабування та стратегічну безпеку.
+> Optimized for minimal capital expenditure (CAPEX).
 
-При щільності **12,000 осіб/км²** на площі **100 км²** місто досягає точки перетину:
+At a density of **8,000 people/km²** over **60–80 km²**, the city fits within a 5 km radius, enabling micromobility.
 
-- Сукупний ВВП зростає на **15% швидше** за чисельність населення
-- Витрати на інфраструктуру на **15% повільніше**
+This is the threshold of self-sufficiency: the population is large enough to sustain a university, a multi-specialty hospital, and an airport. The model maximizes economic growth, social capital, and individual comfort.
 
-Це критична маса для рентабельності глибокого метро (мережа автономних герметичних укриттів + швидкий транспорт) та вузькоспеціалізованих наукових кластерів.
+Communication is provided by the T2 network, which interconnects multiple T1 networks.
+
+---
+
+## R3 — Megalopolis (up to 1,200,000 people)
+
+> Optimized for maximum scaling efficiency and strategic security.
+
+At a density of **12,000 people/km²** over **100 km²**, the city reaches the crossover point:
+
+- Aggregate GDP grows **15% faster** than population
+- Infrastructure costs grow **15% slower**
+
+This is the critical mass for the viability of deep metro (a network of autonomous sealed shelters + rapid transit) and highly specialized scientific clusters.
