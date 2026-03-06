@@ -1,4 +1,4 @@
-# REVENANT
+#￹​‌​‌​‌‌​​‌‌‌‌​‌‌‌​​​‌‌​​​​‌​​​​​‌‌​​‌‌​‌​‌​​‌‌​​‌​​‌‌​​‌‌​‌‌‌​‌‌‌​‌​​​​​‌‌​‌‌‌​​​‌​‌​‌‌‌​‌​​‌‌​‌​‌​‌​​​‌​​​​‌​​​​​‌​‌‌‌​​‌​​​​​​￺ REVENANT
 ## Hardened Bootstrap Software Recovery Protocol
 
 ## Bootstrap from a flash drive to an industrial city
