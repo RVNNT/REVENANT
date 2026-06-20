@@ -50,13 +50,13 @@ Single Frequency зараз. Channel Abstraction з першого дня. FHSS 
 Компоненти:
 
 Додаток: OUTBAND (Android, форк Sideband на Python/Kivy)
-Прошивка: COREBAND (ESP32 + LoRa, SX1262)
+Прошивка: Rampart (ESP32 + LoRa, SX1262)
 Принцип: «Залізо визначає фізику, Роль визначає логіку»
 
 Модель сумісності:
-Всі вузли (COREBAND та Legacy RNode) працюють на одній фізиці. COREBAND має розширені можливості. FHSS — стратегічний апгрейд усієї мережі у фазі 4, не поточний диференціатор.
+Всі вузли (COREBAND та Legacy RNode) працюють на одній фізиці. Rampart має розширені можливості. FHSS — стратегічний апгрейд усієї мережі у фазі 4, не поточний диференціатор.
 Матриця можливостей по фазах
-ФункціяCOREBANDLegacy RNodeФазаТекст (LXMF)✅✅1Ролі (MEMBER/OFFICER/ADMIN)✅✅1Provisioning (.clan/QR/USB/NFC/BLE)✅✅1Panic PIN + локальний wipe✅❌1Локальний Blacklist✅❌1Голос PTT✅❌2QoS (Voice > Text)✅❌2Succession (планова + emergency)✅❌3Group Rekeying✅❌3Remote Kill-switch✅❌3READ MODE (Radio Silence)✅❌3Smart Beacon✅❌3BLE Gateway (датчики)✅❌3FHSS✅❌4
+ФункціяRampartLegacy RNodeФазаТекст (LXMF)✅✅1Ролі (MEMBER/OFFICER/ADMIN)✅✅1Provisioning (.clan/QR/USB/NFC/BLE)✅✅1Panic PIN + локальний wipe✅❌1Локальний Blacklist✅❌1Голос PTT✅❌2QoS (Voice > Text)✅❌2Succession (планова + emergency)✅❌3Group Rekeying✅❌3Remote Kill-switch✅❌3READ MODE (Radio Silence)✅❌3Smart Beacon✅❌3BLE Gateway (датчики)✅❌3FHSS✅❌4
 
 1. АРХІТЕКТУРА ФІЗИЧНОГО ТА MAC РІВНЯ (L1–L2)
 Цей розділ описує фундамент — закладається повністю у фазі 1 і не переписується у наступних.
@@ -108,7 +108,7 @@ pythondef get_active_channel(timestamp):
 
 ### 1.6. Legacy RNode — повна сумісність
 
-Сторонній RNode (стандартна прошивка Mark Qvist / Heltec / LILYGO) працює як рівноправний вузол на channel_0. Немає спеціального "деградованого режиму" на рівні L1/L2. Обмеження — тільки на рівні функціоналу (голос, wipe, succession — вимагають COREBAND).
+Сторонній RNode (стандартна прошивка Mark Qvist / Heltec / LILYGO) працює як рівноправний вузол на channel_0. Немає спеціального "деградованого режиму" на рівні L1/L2. Обмеження — тільки на рівні функціоналу (голос, wipe, succession — вимагають Rampart).
 
 ---
 
@@ -119,7 +119,7 @@ pythondef get_active_channel(timestamp):
 - **TTL:** 7 хопів
 - **Транспортний пріоритет (автоматичний вибір):**
 ```
-LoRa (COREBAND/RNode) → WiFi → BLE
+LoRa (RAMPART/RNode) → WiFi → BLE
 ```
 
 
@@ -142,7 +142,7 @@ LoRa (COREBAND/RNode) → WiFi → BLE
 | Статус | Залізо | Можливості |
 |--------|--------|------------|
 | `STATUS_RECRUIT` | будь-яке | текст, базові функції |
-| `STATUS_RANGER` | тільки COREBAND | + голос, beacon, wipe, succession |
+| `STATUS_RANGER` | тільки Rampart | + голос, beacon, wipe, succession |
 
 > Роль і статус — незалежні поняття. OFFICER з Legacy RNode має повні права на підписання пакетів та управління групою, але не може використовувати PTT або Smart Beacon.
 
@@ -156,13 +156,13 @@ LoRa (COREBAND/RNode) → WiFi → BLE
 - **Шифрування:** Curve25519 + AES-256-GCM (текст), AES-128 (голос — фаза 2)
 
 **Два режими донглу:**
-- **COREBAND mode:** власний протокол, повний запис параметрів у NVS
+- Rampart mode: власний протокол, повний запис параметрів у NVS
 - **Legacy RNode mode:** стандартний RNode Firmware через `pyserial`, параметри зберігаються лише в OUTBAND
 
 **Автоматичне визначення типу донглу:**
 При підключенні по BLE або USB-OTG OUTBAND виконує handshake-запит.
-- COREBAND відповідає ідентифікатором (firmware version + CLAN signature) →
-  OUTBAND встановлює COREBAND mode
+- Rampart відповідає ідентифікатором (firmware version + CLAN signature) →
+  OUTBAND встановлює Rampart mode
 - Сторонній RNode не відповідає на CLAN handshake або відповідає стандартним
   RNode протоколом → OUTBAND встановлює Legacy RNode mode
 - UI відображає тип підключеного донглу. Якщо автовизначення не спрацювало —
@@ -262,7 +262,7 @@ MEMBER / OFFICER / ADMIN — без succession логіки. Без emergency vo
    - *Пряма:* USB / NFC / QR при зустрічі
    - *Асинхронна:* файл через CLAN мережу або сторонні канали
 4. **Синхронізація з донглом:**
-   - *COREBAND:* OUTBAND записує параметри в NVS → STATUS_RANGER
+   - *RAMPART:* OUTBAND записує параметри в NVS → STATUS_RANGER
    - *Legacy RNode:* параметри зберігаються тільки в OUTBAND, фіксована channel_0 через `pyserial` → STATUS_RECRUIT. UI: ⚠️ **Legacy Mode**
 
 #### Re-provisioning (після втрати пристрою)
@@ -363,7 +363,7 @@ MAC Scheduler розширюється:
 
 ### 7.7. Smart Beacon
 
-Динамічна телеметрія для STATUS_RANGER (тільки COREBAND):
+Динамічна телеметрія для STATUS_RANGER (тільки Rampart):
 
 - Базова частота: 15 хв
 - Jitter: ±60 сек для запобігання broadcast storm (оптимізація для 200+ вузлів)
@@ -372,7 +372,7 @@ MAC Scheduler розширюється:
 
 ### 7.8. BLE Gateway
 
-Тільки COREBAND:
+Тільки Rampart:
 
 - Автономне опитування датчиків руху/розтяжок через BLE
 - Самостійна генерація тривожного пакета без участі телефону
@@ -418,14 +418,14 @@ for each slot:
 
 4-байтовий апаратний фільтр пакетів на рівні SX1262
 Seed базується на груповому ключі
-Передається на COREBAND при provisioning (записується в NVS)
+Передається на Rampart при provisioning (записується в NVS)
 Legacy RNode: software IFAC в OUTBAND (як у фазах 1–3)
 
 8.5. Наслідки для сумісності
 При переході на фазу 4:
 
 Legacy RNode залишається на channel_0 (фіксована частота)
-COREBAND стрибає по сітці
+Rampart стрибає по сітці
 UI відображає попередження: ⚠️ Мережа перейшла на FHSS. Legacy RNode не бачить FHSS-трафік.
 Рішення про підтримку змішаного режиму — на момент розробки фази 4
 

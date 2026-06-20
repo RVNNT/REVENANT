@@ -18,8 +18,23 @@
 
 ## ТЕХНІЧНІ СТЕКИ
 
+### postmarketOS — Native Linux (Mainline / Community)
+Найбільш наближений до ідеалу REVENANT варіант. Повноцінний нативний Linux (Alpine) замість Android.
+
+- **Хост:** postmarketOS (pmOS)
+- **Архітектура:** Native AArch64 / ARMv7
+- **Веб-розробка:** Повноцінний Node.js, npm, Docker (нативно), Podman
+- **Системна розробка:**
+  - Повний доступ до /dev без посередників
+  - Docker / Kubernetes (K3s) працюють нативно
+  - USB Gadget Mode: телефон може емулювати клавіатуру, мишу, Ethernet-адаптер для іншого ПК
+  - Повний стек компіляторів Alpine (musl-based)
+- **IDE:** Neovim, VS Code (через code-server або нативно на aarch64)
+- **USB:** Прямий доступ через libusb, підтримка будь-якого заліза через ядро Linux
+- **Обмеження:** Потребує підтримки конкретної моделі (Mainline/Community) та розблокованого завантажувача.
+
 ### Android — з KVM (unlocked bootloader + кастомне ядро)
-Найпотужніший варіант. Апаратна віртуалізація через KVM.
+Найпотужніший Android-варіант. Апаратна віртуалізація через KVM.
 
 - **Хост:** Termux + Termux:Boot + Termux:Widget
 - **VM:** QEMU + KVM → Debian ARM64
@@ -29,65 +44,60 @@
   - Linux kernel source + build tools
   - GDB, Valgrind, strace, ltrace
   - Wireshark/tshark, tcpdump
-  - STM32: arm-none-eabi-gcc, OpenOCD, STM32CubeMX (через Wine або нативний CLI)
+  - STM32: arm-none-eabi-gcc, OpenOCD, STM32CubeMX
   - ESP32: ESP-IDF toolchain, esptool.py
   - QEMU для емуляції ARM/RISC-V без реального заліза
-  - Buildroot або Yocto для збірки кастомних Linux дистрибутивів
-- **IDE:** code-server (localhost:8080) або Zed/Sublime через X11/VNC або Neovim
-- **Мережа:** Tailscale для зовнішнього доступу
-- **USB:** OTG адаптер + libusb passthrough в VM для програматорів STM32/ESP32
+- **IDE:** code-server (localhost:8080) або Neovim
+- **USB:** OTG адаптер + libusb passthrough в VM
 
 ### Android — без KVM (стандартний Android, без модифікацій)
-Реалістичний варіант для більшості телефонів в апокаліпсисі. Без апаратної віртуалізації — використовується proot (chroot-подібне середовище без root).
+Універсальний варіант для будь-якого телефона. Використовується proot.
 
 - **Хост:** Termux + Termux:Boot + Termux:Widget
-- **"VM":** proot-distro + Debian ARM64 (user-space емуляція, не справжня VM)
-  ```
-  pkg install proot-distro
-  proot-distro install debian
-  proot-distro login debian
-  ```
-- **Веб-розробка:** Node.js, npm, pm2, nginx, git (через apt в Debian)
-  - Docker — **не працює** в proot (потребує kernel features); альтернатива — podman (з обмеженнями)
+- **"VM":** proot-distro + Debian ARM64
+- **Веб-розробка:** Node.js, npm, git
 - **Системна розробка:**
   - `apt install build-essential clang cmake ninja-build`
-  - STM32: `apt install gcc-arm-none-eabi openocd`
-  - ESP32: ESP-IDF toolchain, esptool.py
-  - QEMU — тільки user-mode (`qemu-user-static`), не system-mode
-  - Buildroot/Yocto — працює, але повільно
-- **IDE:** code-server або Neovim у терміналі
-- **USB:** `pkg install libusb` в Termux + `termux-usb` для passthrough; без root — обмежено, з root (Magisk) — стабільніше
-- **Обмеження:** повільніше за KVM, немає Docker, обмежений доступ до /dev без root
+  - STM32/ESP32: CLI toolchains
+- **USB:** `termux-usb` для passthrough
+- **Обмеження:** Немає Docker, обмежений доступ до /dev.
 
 ### iPhone — з джейлбрейком (A12+ + Hypervisor.framework)
-Повний стек, рівнозначний Android з KVM.
+Повний стек через віртуалізацію UTM.
 
 - **Хост:** UTM
-- **VM:** UTM VM → Debian ARM64 (апаратна віртуалізація через Hypervisor.framework)
-- **Веб-розробка:** Node.js, npm, pm2, nginx, Docker, git
-- **Системна розробка:**
-  - gcc, g++, clang, make, cmake, ninja
-  - Linux kernel source + build tools
-  - GDB, Valgrind, strace, ltrace
-  - Wireshark/tshark, tcpdump
-  - STM32: arm-none-eabi-gcc, OpenOCD
-  - ESP32: ESP-IDF toolchain, esptool.py
-  - QEMU для емуляції без реального заліза
-  - Buildroot або Yocto
-- **IDE:** code-server або будь-який десктопний через X11/VNC або Neovim
-- **Мережа:** Tailscale
-- **USB:** обмежено через iOS — потребує додаткового дослідження ⚠️
+- **VM:** UTM VM → Debian ARM64 (апаратна віртуалізація)
+- **USB:** Обмежено через iOS.
 
 ### Порівняльна таблиця
 
-| Можливість | Android KVM | Android proot | iPhone JB |
-|-----------|------------|--------------|-----------|
-| Повноцінна VM | ✅ | ❌ (proot) | ✅ |
-| Docker | ✅ | ❌ | ✅ |
-| USB / OTG | ✅ | ✅ (з root) | ⚠️ обмежено |
-| STM32 / ESP32 | ✅ | ✅ | ✅ (без USB) |
-| Потребує модифікацій | unlocked BL | ні (root опц.) | джейлбрейк |
-| Root потрібен | опціонально | опціонально | — |
+| Можливість | Android Standard | Android KVM | iPhone JB | postmarketOS Native |
+|-----------|------------------|-------------|-----------|---------------------|
+| Повноцінна ОС | ❌ (proot) | ✅ (VM) | ✅ (VM) | ✅ (Native) |
+| Docker | ❌ | ✅ | ✅ | ✅ |
+| USB Gadget Mode | ❌ | ❌ | ❌ | ✅ |
+| Прямий доступ до заліза | ❌ | ⚠️ обмежено | ❌ | ✅ |
+| Ефективність RAM | низька | середня | середня | **максимальна** |
+| Універсальність | **найвища** | середня | середня | низька (залежить від моделі) |
+| Потребує модифікацій | ні | unlocked BL | джейлбрейк | unlocked BL + flash |
+
+---
+
+## ПРИСТРОЇ ДЛЯ postmarketOS (2024–2026)
+*Для сценарію High-Performance Bootstrap рекомендуються моделі з категорій Mainline та Community.*
+
+| Модель | Статус | Особливість |
+|--------|--------|-------------|
+| **PinePhone / Pro** | Full Support | Апаратні вимикачі радіо, Mainline |
+| **Purism Librem 5** | Community | Full Support, Privacy focused |
+| **OnePlus 6 / 6T** | Community | Дуже поширений, стабільне Mainline ядро |
+| **Xiaomi Poco F1** | Community | Потужний, велика спільнота |
+| **Fairphone 4 / 5** | Community | Ремонтопридатність, Mainline |
+| **Google Pixel 3a** | Community | Дешевий, гарна підтримка Mainline |
+| **Xiaomi Mi A2 Lite** | Community | Mainline (MSM8953), компактний |
+| **Samsung Galaxy A3/A5 (2015)** | Community | Доступність, робоче Mainline ядро |
+
+---
 
 ---
 

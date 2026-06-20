@@ -62,7 +62,7 @@ T3  → Covenant       (inter-Polis backbone)
 
 **App layer:**
 - Rnode + Sideband
-- Coreband (enhanced Rnode) + Outband (fork of Sideband)
+- Rampart (enhanced Rnode) + Outband (fork of Sideband)
 - Nomad Network
 - Matrix Synapse (no federation)
 - Mumble (Opus 6–12 kbps)

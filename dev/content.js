@@ -5,6 +5,66 @@
 const SECTIONS = [
 
   // ══════════════════════════════════════════════════════════════
+  // ⚡ RESPAWN
+  // ══════════════════════════════════════════════════════════════
+  {
+    group: "⚡ RESPAWN — ВІДНОВЛЕННЯ",
+    group_en: "⚡ RESPAWN — RECOVERY",
+    items: [
+      {
+        id: "respawn-protocol",
+        emoji: "[START]",
+        color: "#facc15",
+        title: "RESPAWN — Протокол",
+        title_en: "RESPAWN — Protocol",
+        subtitle: "Покрокове відновлення цивілізації: від смартфона до інфраструктури.",
+        subtitle_en: "Step-by-step civilization recovery: from smartphone to infrastructure.",
+        analogy: "Як завантаження ОС: Power (BIOS) → OS (Kernel) → Network → Services → Production.",
+        analogy_en: "Like booting an OS: Power (BIOS) → OS (Kernel) → Network → Services → Production.",
+        entries: [
+          {
+            name: "Phase 1: FUEL (Живлення)",
+            name_en: "Phase 1: FUEL (Power)",
+            priority: "КРИТИЧНО",
+            why: "Смартфон — перша нода. Потрібна генерація: сонце (10-20W панель) або вода (мікроГЕС 1-5W).",
+            why_en: "Smartphone is the first node. Requires generation: solar (10-20W) or water (micro-HES 1-5W).",
+            targets: ["Solar Panel", "MPPT", "Micro-HES", "12V Battery"],
+            steps: [
+              { t: "Розгорнути сонячну панель", t_en: "Deploy solar panel", b: "Орієнтація на південь, підключення до USB MPPT.", b_en: "Face south, connect to USB MPPT." },
+              { t: "Зібрати мікроГЕС", t_en: "Build micro-HES", b: "HDD магніти + дріт з мотора. Працює 24/7.", b_en: "HDD magnets + motor wire. Works 24/7." }
+            ]
+          },
+          {
+            name: "Phase 2: SPARK (ОС та Dev Stack)",
+            name_en: "Phase 2: SPARK (OS & Dev Stack)",
+            priority: "КРИТИЧНО",
+            why: "Запуск робочого середовища. Два шляхи: (1) Універсальний: Android + Termux (працює на будь-якому телефоні). (2) Native Linux: postmarketOS (тільки підтримка пристроїв, дає Docker, USB Gadget, повний контроль заліза).",
+            why_en: "Running the workspace. Two paths: (1) Universal: Android + Termux (works on any phone). (2) Native Linux: postmarketOS (requires device support, gives Docker, USB Gadget, full hardware control).",
+            targets: ["Termux", "postmarketOS", "gcc", "git", "Docker"],
+            steps: [
+              { t: "Path A: Termux", t_en: "Path A: Termux", b: "Встановити APK з DEPOT, запуск setup.sh.", b_en: "Install APK from DEPOT, run setup.sh." },
+              { t: "Path B: postmarketOS", t_en: "Path B: postmarketOS", b: "Прошити pmOS image через fastboot на підтримуваний пристрій (OnePlus 6, Poco F1, PinePhone).", b_en: "Flash pmOS image via fastboot to a supported device (OnePlus 6, Poco F1, PinePhone)." }
+            ],
+            archive: { dir: "00-os-iso/", files: ["postmarketOS-*.img.xz", "termux-app_v0.118.apk"] }
+          },
+          {
+            name: "Phase 3: HORN (Мережа T0)",
+            name_en: "Phase 3: HORN (Network T0)",
+            priority: "КРИТИЧНО",
+            why: "Локальний mesh (2–200 осіб). Rampart (LoRa) + Jami/Briar (WiFi/BT). Мережа без вишок.",
+            why_en: "Local mesh (2–200 people). Rampart (LoRa) + Jami/Briar (WiFi/BT). No cell towers.",
+            targets: ["Rampart", "SX1262", "Briar", "Reticulum"],
+            steps: [
+              { t: "Прошити Rampart", t_en: "Flash Rampart", b: "Підключити ESP32, esptool.py flash rampart.bin.", b_en: "Connect ESP32, esptool.py flash rampart.bin." }
+            ],
+            archive: { dir: "r0/", files: ["rampart.md", "outband.md"] }
+          }
+        ]
+      }
+    ]
+  },
+
+  // ══════════════════════════════════════════════════════════════
   // 📖 GUIDE
   // ══════════════════════════════════════════════════════════════
   {
@@ -37,13 +97,13 @@ const SECTIONS = [
             ]
           },
           {
-            name: "T0 MESH — LoRa / Reticulum / Briar",
-            name_en: "T0 MESH — LoRa / Reticulum / Briar",
+            name: "T0 MESH — LoRa / Reticulum / Rampart",
+            name_en: "T0 MESH — LoRa / Reticulum / Rampart",
             priority: "КРИТИЧНО",
-            why: "Перша мережа без базових станцій і без інтернету. PHY: Sub-GHz LoRa + 2.4 GHz LoRa (~2.5 Mbps shared). Transport: Reticulum — store-and-forward поверх RF, як HTTP але для постапокаліпсису. App layer: Rnode + Sideband (текстові повідомлення), Nomad Network (форум), Matrix Synapse без федерації (груповий чат), Mumble (голос, Opus 6–12 kbps). Для Android: Briar (WiFi Direct + BT mesh, 100м), Jami (змішані Android+iOS через hotspot).",
-            why_en: "First network without base stations or internet. PHY: Sub-GHz LoRa + 2.4 GHz LoRa (~2.5 Mbps shared). Transport: Reticulum — store-and-forward over RF, like HTTP for the post-apocalypse. App layer: Rnode + Sideband (messaging), Nomad Network (forum), Matrix Synapse no federation (group chat), Mumble (voice, Opus 6–12 kbps). Android: Briar (WiFi Direct + BT mesh, 100m), Jami (mixed Android+iOS via hotspot).",
-            targets: ["LoRa модуль SX1276 / SX1262", "Rnode", "Reticulum", "Sideband APK", "Briar APK", "Jami APK", "Matrix Synapse", "Mumble"],
-            targets_en: ["LoRa module SX1276 / SX1262", "Rnode", "Reticulum", "Sideband APK", "Briar APK", "Jami APK", "Matrix Synapse", "Mumble"],
+            why: "Перша мережа без базових станцій і без інтернету. PHY: Sub-GHz LoRa + 2.4 GHz LoRa (~2.5 Mbps shared). Transport: Reticulum — store-and-forward поверх RF, як HTTP але для постапокаліпсису. App layer: Rampart + Sideband (текстові повідомлення), Nomad Network (форум), Matrix Synapse без федерації (груповий чат), Mumble (голос, Opus 6–12 kbps). Для Android: Briar (WiFi Direct + BT mesh, 100м), Jami (змішані Android+iOS через hotspot).",
+            why_en: "First network without base stations or internet. PHY: Sub-GHz LoRa + 2.4 GHz LoRa (~2.5 Mbps shared). Transport: Reticulum — store-and-forward over RF, like HTTP for the post-apocalypse. App layer: Rampart + Sideband (messaging), Nomad Network (forum), Matrix Synapse no federation (group chat), Mumble (voice, Opus 6–12 kbps). Android: Briar (WiFi Direct + BT mesh, 100m), Jami (mixed Android+iOS via hotspot).",
+            targets: ["LoRa модуль SX1276 / SX1262", "Rampart", "Reticulum", "Sideband APK", "Briar APK", "Jami APK", "Matrix Synapse", "Mumble"],
+            targets_en: ["LoRa module SX1276 / SX1262", "Rampart", "Reticulum", "Sideband APK", "Briar APK", "Jami APK", "Matrix Synapse", "Mumble"],
             links: [
               { t: "Reticulum docs", u: "https://reticulum.network/manual/" },
               { t: "Sideband (F-Droid)", u: "https://f-droid.org/packages/io.unsigned.sideband/" },
@@ -64,16 +124,17 @@ const SECTIONS = [
             ]
           },
           {
-            name: "MOBILE BOOTSTRAP — Android та iOS",
-            name_en: "MOBILE BOOTSTRAP — Android & iOS",
+            name: "MOBILE BOOTSTRAP — Termux / postmarketOS",
+            name_en: "MOBILE BOOTSTRAP — Termux / postmarketOS",
             priority: "КРИТИЧНО",
-            why: "Телефон — перша нода RESPAWN. Android: F-Droid snapshot + APK mirror + Termux bootstrap (Termux:Boot + Termux:Widget, QEMU + KVM → Debian ARM64). Termux перетворює Android у повноцінний Linux-термінал без root — тут запускається gcc, python, git. iOS: Jailbreak archive + IPSW archive + sideload tools. Один телефон стає хотспотом — інші підключаються через Jami.",
-            why_en: "Phone is the first RESPAWN node. Android: F-Droid snapshot + APK mirror + Termux bootstrap (Termux:Boot + Termux:Widget, QEMU + KVM → Debian ARM64). Termux turns Android into a full Linux terminal without root. iOS: jailbreak archive + IPSW archive + sideload tools. One phone becomes a hotspot — others connect via Jami.",
-            targets: ["Termux APK", "F-Droid APK", "Termux:Boot APK", "QEMU ARM", "gcc", "python3", "git", "openssh"],
+            why: "Телефон — перша нода RESPAWN. Android (Termux): універсальний Linux-термінал без root. postmarketOS: нативний Alpine Linux для смартфонів. pmOS дає: повноцінний Docker, USB Gadget Mode (телефон як клавіатура/Ethernet), прямий доступ до заліза. Підтримувані пристрої (Mainline/Community): PinePhone, OnePlus 6/6T, Poco F1, Pixel 3a, Fairphone 4. iOS: Jailbreak + UTM VM.",
+            why_en: "Phone is the first RESPAWN node. Android (Termux): universal Linux terminal without root. postmarketOS: native Alpine Linux for smartphones. pmOS gives: full Docker, USB Gadget Mode (phone as keyboard/Ethernet), direct hardware access. Supported (Mainline/Community): PinePhone, OnePlus 6/6T, Poco F1, Pixel 3a, Fairphone 4. iOS: jailbreak + UTM VM.",
+            targets: ["Termux APK", "postmarketOS image", "QEMU ARM", "gcc", "Docker", "USB Gadget Mode"],
             links: [
+              { t: "postmarketOS Devices", u: "https://wiki.postmarketos.org/wiki/Devices" },
               { t: "Termux (F-Droid)", u: "https://f-droid.org/packages/com.termux/" }
             ],
-            archive: { dir: "00-android/termux/", files: ["termux-app_v0.118.apk"] }
+            archive: { dir: "00-os-iso/", files: ["postmarketOS-*.img.xz", "termux-app_v0.118.apk"] }
           },
           {
             name: "DEV STACK — gcc / clang / cargo / Node / nasm",
@@ -484,22 +545,39 @@ const SECTIONS = [
     group_en: "🔨 BUILD — TOOLCHAIN ASSEMBLY",
     items: [
       {
-        id: "build-coming",
+        id: "build-toolchains",
         emoji: "[BUILD]",
         color: "#f97316",
-        title: "BUILD — Незабаром",
-        title_en: "BUILD — Coming Soon",
-        subtitle: "Компілятори, toolchains, cross-compilation для всіх платформ.",
-        subtitle_en: "Compilers, toolchains, cross-compilation for all platforms.",
-        analogy: "Як npm install але для embedded — встановлюємо весь стек офлайн з DEPOT.",
-        analogy_en: "Like npm install but for embedded — installing the full stack offline from DEPOT.",
+        title: "Toolchains — Збірка",
+        title_en: "Toolchains — Assembly",
+        subtitle: "Компілятори ARM, RISC-V, AVR. Офлайн збірка з DEPOT.",
+        subtitle_en: "ARM, RISC-V, AVR compilers. Offline assembly from DEPOT.",
+        analogy: "Як npm install але для заліза — встановлюємо все необхідне без інтернету.",
+        analogy_en: "Like npm install but for hardware — installing everything needed without internet.",
         entries: [
           {
-            name: "Розділ в розробці", name_en: "Section in development",
-            priority: "ДОДАТКОВО",
-            why: "Повні гайди по збірці toolchain для ARM, RISC-V, AVR — з DEPOT, без інтернету.",
-            why_en: "Full toolchain build guides for ARM, RISC-V, AVR — from DEPOT, no internet.",
-            targets: ["gcc-arm-none-eabi", "clang", "cargo", "nasm"], links: []
+            name: "ARM GNU Toolchain", name_en: "ARM GNU Toolchain",
+            priority: "КРИТИЧНО",
+            why: "Для STM32 та ARM Cortex. Включає gcc, g++, gdb.",
+            why_en: "For STM32 and ARM Cortex. Includes gcc, g++, gdb.",
+            targets: ["gcc-arm-none-eabi", "binutils", "newlib"],
+            steps: [
+              { t: "Розпакувати архів", t_en: "Extract archive", c: "tar -xvf arm-gnu-toolchain-*.tar.xz -C /opt/toolchains/" },
+              { t: "Додати у PATH", t_en: "Add to PATH", c: "export PATH=$PATH:/opt/toolchains/arm-gnu-toolchain/bin" }
+            ],
+            archive: { dir: "01-compilers/", files: ["arm-gnu-toolchain-*.tar.xz"] }
+          },
+          {
+            name: "ESP-IDF (ESP32)", name_en: "ESP-IDF (ESP32)",
+            priority: "КРИТИЧНО",
+            why: "Для прошивки Rampart та інших ESP32 пристроїв.",
+            why_en: "For flashing Rampart and other ESP32 devices.",
+            targets: ["python3", "esptool.py", "idf.py"],
+            steps: [
+              { t: "Встановити залежності", t_en: "Install dependencies", b: "Потребує python3 та pip.", b_en: "Requires python3 and pip." },
+              { t: "Інсталяція", t_en: "Installation", c: "./install.sh esp32" }
+            ],
+            archive: { dir: "15-rtos/", files: ["esp-idf-v5.1.zip"] }
           }
         ]
       }
@@ -514,22 +592,31 @@ const SECTIONS = [
     group_en: "📦 DEPOT — BOOT MEDIUM STRUCTURE",
     items: [
       {
-        id: "depot-coming",
+        id: "depot-structure",
         emoji: "[DEPOT]",
         color: "#4f9cf9",
-        title: "DEPOT — Незабаром",
-        title_en: "DEPOT — Coming Soon",
-        subtitle: "Структура REVENANT-DEPOT: що де лежить, як зібрати флешку з нуля.",
-        subtitle_en: "REVENANT-DEPOT structure: what goes where, how to build the boot drive from scratch.",
-        analogy: "Як package.json але для USB-флешки — повний маніфест того що має бути на носії.",
-        analogy_en: "Like package.json but for a USB drive — full manifest of what should be on the boot medium.",
+        title: "DEPOT — Карта носія",
+        title_en: "DEPOT — Medium Map",
+        subtitle: "Що де лежить на флешці. SHA256 маніфести та скрипти.",
+        subtitle_en: "What goes where on the flash drive. SHA256 manifests and scripts.",
+        analogy: "Як маніфест вантажу на кораблі — повний перелік ресурсів для виживання.",
+        analogy_en: "Like a cargo manifest on a ship — a full list of survival resources.",
         entries: [
           {
-            name: "Розділ в розробці", name_en: "Section in development",
-            priority: "ДОДАТКОВО",
-            why: "R0 структура директорій, скрипти збирання депо, чеклісти цілісності, SHA256 маніфести.",
-            why_en: "R0 directory structure, depot assembly scripts, integrity checklists, SHA256 manifests.",
-            targets: ["64GB USB", "128GB USB (recommended)", "SHA256 manifest", "rsync scripts"], links: []
+            name: "00-OS-ISO", name_en: "00-OS-ISO",
+            priority: "КРИТИЧНО",
+            why: "Образи Debian ARM64, Alpine Linux, Termux APK.",
+            why_en: "Debian ARM64, Alpine Linux images, Termux APK.",
+            targets: ["Debian ARM64", "Termux APK"],
+            archive: { dir: "00-os-iso/", files: ["debian-*.iso", "alpine-*.iso"] }
+          },
+          {
+            name: "01-Compilers", name_en: "01-Compilers",
+            priority: "КРИТИЧНО",
+            why: "gcc, clang, rust, node-lts для ARM64.",
+            why_en: "gcc, clang, rust, node-lts for ARM64.",
+            targets: ["gcc", "cargo", "node"],
+            archive: { dir: "01-compilers/", files: ["*.tar.xz", "*.tar.gz"] }
           }
         ]
       }
